@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scolara</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:40px;
+}
+
+h1{
+    text-align:center;
+    color:#333;
+}
+
+.subtitle{
+    text-align:center;
+    margin-top:10px;
+    color:#666;
+}
+
+.cards{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    margin-top:50px;
+    flex-wrap:wrap;
+}
+
+.card{
+    width:280px;
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    text-align:center;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#666;
+}
+
+.form-container{
+    display:none;
+    width:500px;
+    max-width:100%;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+.form-container h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+.register-link{
+    text-align:center;
+    margin-top:15px;
+}
+
+.register-link a{
+    text-decoration:none;
+    color:#007bff;
+}
+
+</style>
+</head>
+
+<body>
+
+
+
+<h1>Bienvenue sur Scolara</h1>
+<p class="subtitle">Choisissez votre profil pour continuer</p>
+
+<div class="cards">
+
+    <div class="card" onclick="showForm('user')">
+        <h2>👨‍🎓 User</h2>
+        <p>Espace Étudiant</p>
+    </div>
+
+    <div class="card" onclick="showForm('parent')">
+        <h2>👨‍👩‍👧 Parent</h2>
+        <p>Espace Parent</p>
+    </div>
+
+    <div class="card" onclick="showForm('staff')">
+        <h2>🏫 Directeur / Staff</h2>
+        <p>Administration</p>
+    </div>
+
+</div>
+
+<!-- FORM USER -->
+
+<div id="userForm" class="form-container">
+
+    <h2>👨‍🎓 Connexion Étudiant</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="hidden" name="role" value="student">
+
+        <input type="text"
+               name="student_id"
+               placeholder="ID Étudiant"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Mot de passe"
+               required>
+        
+        <button type="submit">
+            Se connecter
+        </button>
+    </form>
+
+
+</div>
+
+<!-- FORM PARENT -->
+
+<div id="parentForm" class="form-container">
+
+    <h2>👨‍👩‍👧 Connexion Parent</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="hidden" name="role" value="parent">
+
+<input type="text" name="child_id" placeholder="ID Enfant" required>
+
+
+        <input type="password"
+               name="password"
+               placeholder="Mot de passe"
+               required>
+
+
+        
+        <button type="submit">
+            Se connecter
+        </button>
+    </form>
+
+    <div class="register-link">
+        <a href="{% url 'register' %}">
+            Créer un compte parent
+        </a>
+    </div>
+
+</div>
+
+<!-- FORM STAFF -->
+
+<div id="staffForm" class="form-container">
+
+    <h2>🏫 Connexion Directeur / Staff</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <input type="hidden" name="role" value="staff">   
+
+        <input type="text"
+               name="employee_id"
+               placeholder="ID Employé"
+               required>
+
+        <input type="text"
+               name="school_code"
+               placeholder="Code École"
+               required>
+
+        <input type="password"
+               name="password"
+               placeholder="Mot de passe"
+               required>
+
+            
+
+        <button type="submit">
+            Se connecter
+        </button>
+    </form>
+
+
+
+</div>
+{% if error %}
+<div style="
+    background:#ffdddd;
+    color:#a10000;
+    padding:10px;
+    margin:20px auto;
+    width:500px;
+    max-width:100%;
+    border:1px solid red;
+    border-radius:8px;
+    text-align:center;
+">
+    {{ error }}
+</div>
+{% endif %}
+
+<script>
+
+function showForm(type){
+
+    document.getElementById('userForm').style.display='none';
+    document.getElementById('parentForm').style.display='none';
+    document.getElementById('staffForm').style.display='none';
+
+    if(type === 'user'){
+        document.getElementById('userForm').style.display='block';
+    }
+
+    if(type === 'parent'){
+        document.getElementById('parentForm').style.display='block';
+    }
+
+    if(type === 'staff'){
+        document.getElementById('staffForm').style.display='block';
+    }
+}
+
+</script>
+
+</body>
+</html>

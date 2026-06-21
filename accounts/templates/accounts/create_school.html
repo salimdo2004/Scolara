@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Créer une école</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f4f4f4;
+            padding:30px;
+        }
+
+        .container{
+            width: 600px;
+            margin:auto;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2{
+            text-align:center;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin:8px 0;
+            border:1px solid #ccc;
+            border-radius:5px;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+            background:#28a745;
+            color:white;
+            border:none;
+            border-radius:5px;
+            font-size:16px;
+            cursor:pointer;
+        }
+
+        button:hover{
+            background:#218838;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>🏫 Créer une école</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- École -->
+        <input type="text" name="school_name" placeholder="Nom de l’école">
+        <input type="text" name="school_type" placeholder="Type (publique / privée / autre)">
+        <input type="text" name="level" placeholder="Niveau (primaire / collège / lycée / mixte)">
+        <input type="text" name="school_code" placeholder="Code de l’école (optionnel)">
+        <input type="date" name="year_created" placeholder="Année de création">
+
+        <!-- Adresse -->
+        <input type="text" name="address" placeholder="Adresse complète">
+        <input type="text" name="region" placeholder="Région">
+        <input type="text" name="city" placeholder="Ville">        
+        <input type="text" name="postal_code" placeholder="Code postal (optionnel)">
+
+        <!-- Directeur -->
+        <input type="text" name="director_name" placeholder="Nom complet du directeur">
+        <input type="email" name="director_email" placeholder="Email professionnel">
+        <input type="text" name="director_phone" placeholder="Numéro de téléphone">
+        <input type="password" name="director_password" placeholder="Mot de passe / accès">
+
+        <button type="submit">Créer l’école</button>
+    </form>
+
+</div>
+
+</body>
+</html>

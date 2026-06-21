@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profil</title>
+</head>
+<body>
+
+<h1>Mon Profil</h1>
+
+{% if role == 'parent' %}
+
+    <h2>Parent</h2>
+
+    <p>Nom : {{ user.username }}</p>
+    <p>ID Enfant : {{ user.child_id }}</p>
+    <p>Email : {{ user.email }}</p>
+    <p>Téléphone : {{ user.phone }}</p>
+
+{% elif role == 'student' %}
+
+    <h2>Étudiant</h2>
+
+    <p>ID Étudiant : {{ user.student_id }}</p>
+
+{% elif role == 'staff' %}
+
+    <h2>Staff</h2>
+
+    <p>ID Employé : {{ user.employee_id }}</p>
+    <p>Code École : {{ user.school_code }}</p>
+
+{% endif %}
+
+<a href="{% url 'logout' %}">
+    Déconnexion
+</a>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scolara - Bienvenue</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            width: 80%;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        p {
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            width: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: white;
+        }
+
+        .login-btn {
+            background: #3498db;
+        }
+
+        .school-btn {
+            background: #2ecc71;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Bienvenue sur Scolara</h1>
+    <p>Choisissez une action pour continuer</p>
+
+    <div class="cards">
+
+        <!-- LOGIN -->
+        <div class="card">
+            <h2>🔑 Se connecter</h2>
+            <p>Accédez à votre espace (admin, prof, parent)</p>
+            <a href="{% url 'login' %}" class="btn login-btn">Connexion</a>
+        </div>
+
+        <!-- CREATE SCHOOL -->
+        <div class="card">
+            <h2>🏫 Créer une école</h2>
+            <p>Créer une nouvelle structure scolaire</p>
+            <a href="{% url 'create_school' %}" class="btn school-btn">Commencer</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+</body>
+</html>
