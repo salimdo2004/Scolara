@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Form</title>
+  <style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+
+    background:linear-gradient(-45deg,#dbeafe,#eff6ff,#f3e8ff,#e0f2fe);
+
+    background-size:400% 400%;
+
+    animation:bgAnimation 15s ease infinite;
+
+    min-height:100vh;
+
+    padding:40px;
+
+}
+
+@keyframes bgAnimation{
+
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+
+}
+
+.container{
+
+    max-width:1100px;
+
+    margin:auto;
+
+    background:rgba(255,255,255,.85);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:25px;
+
+    padding:40px;
+
+    box-shadow:
+    0 20px 60px rgba(0,0,0,.15);
+
+    animation:fadeUp .8s ease;
+
+}
+
+@keyframes fadeUp{
+
+from{
+
+opacity:0;
+transform:translateY(40px);
+
+}
+
+to{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+h2{
+
+font-size:35px;
+
+font-weight:700;
+
+text-align:center;
+
+margin-bottom:40px;
+
+color:#1e293b;
+
+position:relative;
+
+}
+
+h2::after{
+
+content:"";
+
+width:90px;
+
+height:5px;
+
+background:#2563eb;
+
+display:block;
+
+margin:15px auto;
+
+border-radius:20px;
+
+}
+
+h3{
+
+margin:35px 0 20px;
+
+color:#2563eb;
+
+padding-bottom:10px;
+
+border-bottom:2px solid #e5e7eb;
+
+}
+
+.row{
+
+display:flex;
+
+gap:25px;
+
+margin-bottom:15px;
+
+}
+
+.row .form-group{
+
+flex:1;
+
+}
+
+.form-group{
+
+display:flex;
+
+flex-direction:column;
+
+margin-bottom:20px;
+
+animation:fadeUp .7s ease;
+
+}
+
+label{
+
+font-weight:600;
+
+margin-bottom:8px;
+
+color:#334155;
+
+}
+
+input,
+select,
+textarea{
+
+padding:15px;
+
+font-size:15px;
+
+border-radius:15px;
+
+border:2px solid #dbeafe;
+
+background:white;
+
+transition:.35s;
+
+outline:none;
+
+}
+
+textarea{
+
+resize:vertical;
+
+min-height:100px;
+
+}
+
+input:hover,
+select:hover,
+textarea:hover{
+
+border-color:#60a5fa;
+
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+
+border-color:#2563eb;
+
+box-shadow:
+
+0 0 0 5px rgba(37,99,235,.15);
+
+transform:translateY(-2px);
+
+}
+
+button{
+
+width:100%;
+
+padding:18px;
+
+border:none;
+
+border-radius:15px;
+
+background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+cursor:pointer;
+
+transition:.4s;
+
+letter-spacing:.5px;
+
+margin-top:25px;
+
+}
+
+button:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+
+0 20px 40px rgba(37,99,235,.35);
+
+}
+
+button:active{
+
+transform:scale(.98);
+
+}
+
+.container:hover{
+
+box-shadow:
+
+0 25px 70px rgba(37,99,235,.15);
+
+}
+
+select{
+
+cursor:pointer;
+
+}
+
+input[type=date]{
+
+cursor:pointer;
+
+}
+
+::-webkit-scrollbar{
+
+width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+background:#3b82f6;
+
+border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+background:#f1f5f9;
+
+}
+
+/* Animation des champs */
+
+.form-group{
+
+opacity:0;
+
+animation:showField .7s forwards;
+
+}
+
+.form-group:nth-child(1){animation-delay:.1s;}
+.form-group:nth-child(2){animation-delay:.2s;}
+.form-group:nth-child(3){animation-delay:.3s;}
+.form-group:nth-child(4){animation-delay:.4s;}
+.form-group:nth-child(5){animation-delay:.5s;}
+
+@keyframes showField{
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+from{
+
+opacity:0;
+
+transform:translateY(20px);
+
+}
+
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+.row{
+
+flex-direction:column;
+
+gap:0;
+
+}
+
+.container{
+
+padding:25px;
+
+}
+
+body{
+
+padding:15px;
+
+}
+
+h2{
+
+font-size:28px;
+
+}
+
+}
+
+@media(max-width:600px){
+
+input,
+select,
+textarea{
+
+font-size:14px;
+
+padding:13px;
+
+}
+
+button{
+
+padding:15px;
+
+font-size:16px;
+
+}
+
+h2{
+
+font-size:24px;
+
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Student Registration Form</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- ================= Personal Info ================= -->
+        <div class="row">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type="text" name="first_name" required>
+            </div>
+
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type="text" name="last_name" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Gender</label>
+                <select name="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+        </div>
+
+        <div class="row">
+<div class="form-group">
+    <label>Téléphone</label>
+
+    <div style="display:flex; gap:10px;">
+
+        <select name="country_code" required style="width:120px;">
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+39">🇮🇹 +39</option>
+        </select>
+
+        <input
+            type="tel"
+            name="phone"
+            placeholder="612345678"
+            required
+            style="flex:1;">
+    </div>
+</div>
+
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" name="date_of_birth">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Place of Birth</label>
+               <select name="place_of_birth">
+ <option value="Agadir">Agadir</option>
+<option value="Aït Melloul">Aït Melloul</option>
+<option value="Al Hoceïma">Al Hoceïma</option>
+<option value="Assilah">Assilah</option>
+<option value="Azemmour">Azemmour</option>
+<option value="Azilal">Azilal</option>
+<option value="Azrou">Azrou</option>
+<option value="Béni Mellal">Béni Mellal</option>
+<option value="Benslimane">Benslimane</option>
+<option value="Berkane">Berkane</option>
+<option value="Berrechid">Berrechid</option>
+<option value="Biougra">Biougra</option>
+<option value="Boujdour">Boujdour</option>
+<option value="Boulemane">Boulemane</option>
+<option value="Casablanca">Casablanca</option>
+<option value="Chefchaouen">Chefchaouen</option>
+<option value="Chichaoua">Chichaoua</option>
+<option value="Dakhla">Dakhla</option>
+<option value="Driouch">Driouch</option>
+<option value="El Hajeb">El Hajeb</option>
+<option value="El Jadida">El Jadida</option>
+<option value="El Kelâa des Sraghna">El Kelâa des Sraghna</option>
+<option value="Errachidia">Errachidia</option>
+<option value="Essaouira">Essaouira</option>
+<option value="Fès">Fès</option>
+<option value="Fnideq">Fnideq</option>
+<option value="Fquih Ben Salah">Fquih Ben Salah</option>
+<option value="Guelmim">Guelmim</option>
+<option value="Guercif">Guercif</option>
+<option value="Ifrane">Ifrane</option>
+<option value="Inezgane">Inezgane</option>
+<option value="Jerada">Jerada</option>
+<option value="Kasba Tadla">Kasba Tadla</option>
+<option value="Kénitra">Kénitra</option>
+<option value="Khémisset">Khémisset</option>
+<option value="Khénifra">Khénifra</option>
+<option value="Khouribga">Khouribga</option>
+<option value="Ksar El Kebir">Ksar El Kebir</option>
+<option value="Laâyoune">Laâyoune</option>
+<option value="Larache">Larache</option>
+<option value="Marrakech">Marrakech</option>
+<option value="Martil">Martil</option>
+<option value="M'diq">M'diq</option>
+<option value="Meknès">Meknès</option>
+<option value="Midelt">Midelt</option>
+<option value="Mohammedia">Mohammedia</option>
+<option value="Nador">Nador</option>
+<option value="Ouarzazate">Ouarzazate</option>
+<option value="Oued Zem">Oued Zem</option>
+<option value="Ouezzane">Ouezzane</option>
+<option value="Oujda">Oujda</option>
+<option value="Rabat">Rabat</option>
+<option value="Safi">Safi</option>
+<option value="Salé">Salé</option>
+<option value="Sefrou">Sefrou</option>
+<option value="Settat">Settat</option>
+<option value="Sidi Bennour">Sidi Bennour</option>
+<option value="Sidi Ifni">Sidi Ifni</option>
+<option value="Sidi Kacem">Sidi Kacem</option>
+<option value="Sidi Slimane">Sidi Slimane</option>
+<option value="Skhirat">Skhirat</option>
+<option value="Souk El Arbaa">Souk El Arbaa</option>
+<option value="Taounate">Taounate</option>
+<option value="Taourirt">Taourirt</option>
+<option value="Taroudant">Taroudant</option>
+<option value="Tarfaya">Tarfaya</option>
+<option value="Tanger">Tanger</option>
+<option value="Taza">Taza</option>
+<option value="Témara">Témara</option>
+<option value="Tétouan">Tétouan</option>
+<option value="Tinghir">Tinghir</option>
+<option value="Tiznit">Tiznit</option>
+<option value="Tan-Tan">Tan-Tan</option>
+<option value="Youssoufia">Youssoufia</option>
+<option value="Zagora">Zagora</option>
+<option value="Aousserd">Aousserd</option>
+<option value="Arfoud">Arfoud</option>
+<option value="Ben Guerir">Ben Guerir</option>
+<option value="Bouarfa">Bouarfa</option>
+<option value="Figuig">Figuig</option>
+<option value="Imzouren">Imzouren</option>
+<option value="Kalaa Mgouna">Kalaa Mgouna</option>
+<option value="Khemis Zemamra">Khemis Zemamra</option>
+<option value="Moulay Bousselham">Moulay Bousselham</option>
+<option value="Oulad Teima">Oulad Teima</option>
+<option value="Oulad Ayad">Oulad Ayad</option>
+<option value="Saidia">Saidia</option>
+<option value="Sidi Yahya El Gharb">Sidi Yahya El Gharb</option>
+<option value="Smara">Smara</option>
+<option value="Tahla">Tahla</option>
+<option value="Tiflet">Tiflet</option>
+<option value="Tiztoutine">Tiztoutine</option>
+<option value="Youssoufia">Youssoufia</option>
+<option value="Zaio">Zaio</option>
+<option value="Zeghanghane">Zeghanghane</option>
+    </select>
+        </div>
+
+        <div class="form-group">
+            <label>Address</label>
+            <textarea name="address"></textarea>
+        </div>
+
+        <!-- ================= Location ================= -->
+        <div class="row">
+            <div class="form-group">
+                <label>City</label>
+                <select name="city" id="city">
+                    <option value="Agadir">Agadir</option>
+<option value="Aït Melloul">Aït Melloul</option>
+<option value="Al Hoceïma">Al Hoceïma</option>
+<option value="Assilah">Assilah</option>
+<option value="Azemmour">Azemmour</option>
+<option value="Azilal">Azilal</option>
+<option value="Azrou">Azrou</option>
+<option value="Béni Mellal">Béni Mellal</option>
+<option value="Benslimane">Benslimane</option>
+<option value="Berkane">Berkane</option>
+<option value="Berrechid">Berrechid</option>
+<option value="Biougra">Biougra</option>
+<option value="Boujdour">Boujdour</option>
+<option value="Boulemane">Boulemane</option>
+<option value="Casablanca">Casablanca</option>
+<option value="Chefchaouen">Chefchaouen</option>
+<option value="Chichaoua">Chichaoua</option>
+<option value="Dakhla">Dakhla</option>
+<option value="Driouch">Driouch</option>
+<option value="El Hajeb">El Hajeb</option>
+<option value="El Jadida">El Jadida</option>
+<option value="El Kelâa des Sraghna">El Kelâa des Sraghna</option>
+<option value="Errachidia">Errachidia</option>
+<option value="Essaouira">Essaouira</option>
+<option value="Fès">Fès</option>
+<option value="Fnideq">Fnideq</option>
+<option value="Fquih Ben Salah">Fquih Ben Salah</option>
+<option value="Guelmim">Guelmim</option>
+<option value="Guercif">Guercif</option>
+<option value="Ifrane">Ifrane</option>
+<option value="Inezgane">Inezgane</option>
+<option value="Jerada">Jerada</option>
+<option value="Kasba Tadla">Kasba Tadla</option>
+<option value="Kénitra">Kénitra</option>
+<option value="Khémisset">Khémisset</option>
+<option value="Khénifra">Khénifra</option>
+<option value="Khouribga">Khouribga</option>
+<option value="Ksar El Kebir">Ksar El Kebir</option>
+<option value="Laâyoune">Laâyoune</option>
+<option value="Larache">Larache</option>
+<option value="Marrakech">Marrakech</option>
+<option value="Martil">Martil</option>
+<option value="M'diq">M'diq</option>
+<option value="Meknès">Meknès</option>
+<option value="Midelt">Midelt</option>
+<option value="Mohammedia">Mohammedia</option>
+<option value="Nador">Nador</option>
+<option value="Ouarzazate">Ouarzazate</option>
+<option value="Oued Zem">Oued Zem</option>
+<option value="Ouezzane">Ouezzane</option>
+<option value="Oujda">Oujda</option>
+<option value="Rabat">Rabat</option>
+<option value="Safi">Safi</option>
+<option value="Salé">Salé</option>
+<option value="Sefrou">Sefrou</option>
+<option value="Settat">Settat</option>
+<option value="Sidi Bennour">Sidi Bennour</option>
+<option value="Sidi Ifni">Sidi Ifni</option>
+<option value="Sidi Kacem">Sidi Kacem</option>
+<option value="Sidi Slimane">Sidi Slimane</option>
+<option value="Skhirat">Skhirat</option>
+<option value="Souk El Arbaa">Souk El Arbaa</option>
+<option value="Taounate">Taounate</option>
+<option value="Taourirt">Taourirt</option>
+<option value="Taroudant">Taroudant</option>
+<option value="Tarfaya">Tarfaya</option>
+<option value="Tanger">Tanger</option>
+<option value="Taza">Taza</option>
+<option value="Témara">Témara</option>
+<option value="Tétouan">Tétouan</option>
+<option value="Tinghir">Tinghir</option>
+<option value="Tiznit">Tiznit</option>
+<option value="Tan-Tan">Tan-Tan</option>
+<option value="Youssoufia">Youssoufia</option>
+<option value="Zagora">Zagora</option>
+
+<option value="Aousserd">Aousserd</option>
+<option value="Arfoud">Arfoud</option>
+<option value="Ben Guerir">Ben Guerir</option>
+<option value="Bouarfa">Bouarfa</option>
+<option value="Figuig">Figuig</option>
+<option value="Imzouren">Imzouren</option>
+<option value="Kalaa Mgouna">Kalaa Mgouna</option>
+<option value="Khemis Zemamra">Khemis Zemamra</option>
+<option value="Moulay Bousselham">Moulay Bousselham</option>
+<option value="Oulad Teima">Oulad Teima</option>
+<option value="Oulad Ayad">Oulad Ayad</option>
+<option value="Saidia">Saidia</option>
+<option value="Sidi Yahya El Gharb">Sidi Yahya El Gharb</option>
+<option value="Smara">Smara</option>
+<option value="Tahla">Tahla</option>
+<option value="Tiflet">Tiflet</option>
+<option value="Tiztoutine">Tiztoutine</option>
+<option value="Youssoufia">Youssoufia</option>
+<option value="Zaio">Zaio</option>
+<option value="Zeghanghane">Zeghanghane</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Country</label>
+                <select name="country">
+
+    <option value="Morocco">Morocco</option>
+    <option value="France">France</option>
+    <option value="Spain">Spain</option>
+    <option value="Portugal">Portugal</option>
+    <option value="Belgium">Belgium</option>
+    <option value="Germany">Germany</option>
+    <option value="Italy">Italy</option>
+    <option value="United Kingdom">United Kingdom</option>
+    <option value="Canada">Canada</option>
+    <option value="United States">United States</option>
+
+</select>
+            </div>
+        </div>
+
+        <!-- ================= School ================= -->
+        <div class="row">
+            <div class="form-group">
+
+            <label>School Name</label>
+
+         <select name="school" id="school" required>
+    <option value="">Choose School</option>
+
+    {% for s in schools %}
+        <option value="{{ s.id }}"
+            {% if s.id == school.id %}selected{% endif %}>
+            {{ s.school_name }}
+        </option>
+    {% endfor %}
+</select>
+            </div>
+
+           
+<div class="form-group">
+    <label>Niveau</label>
+
+    <select name="level" required>
+        <option value="">-- Sélectionner un niveau --</option>
+
+        <optgroup label="Primaire">
+            <option value="1ère Primaire">1ère Primaire</option>
+            <option value="2ème Primaire">2ème Primaire</option>
+            <option value="3ème Primaire">3ème Primaire</option>
+            <option value="4ème Primaire">4ème Primaire</option>
+            <option value="5ème Primaire">5ème Primaire</option>
+            <option value="6ème Primaire">6ème Primaire</option>
+        </optgroup>
+
+        <optgroup label="Collège">
+            <option value="1ère Collège">1ère Collège</option>
+            <option value="2ème Collège">2ème Collège</option>
+            <option value="3ème Collège">3ème Collège</option>
+        </optgroup>
+
+        <optgroup label="Lycée">
+            <option value="Tronc Commun">Tronc Commun</option>
+            <option value="1ère Baccalauréat">1ère Baccalauréat</option>
+            <option value="2ème Baccalauréat">2ème Baccalauréat</option>
+        </optgroup>
+    </select>
+</div>
+        </div>
+
+        <div class="form-group">
+            <label>Field of Study</label>
+            <input type="text" name="field_of_study">
+        </div>
+
+        <!-- ================= Parents ================= -->
+        <h3>Father Info</h3>
+        <div class="row">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="parent_name_father">
+            </div>
+
+<div class="form-group">
+    <label>Téléphone</label>
+
+    <div style="display:flex; gap:10px;">
+
+        <select name="father_country_code" required style="width:120px;">           
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+39">🇮🇹 +39</option>
+        </select>
+
+        <input
+            type="tel"
+            name="parent_phone_father"
+            placeholder="612345678"
+            required
+            style="flex:1;">
+    </div>
+</div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="parent_email_father">
+            </div>
+
+            <div class="form-group">
+                <label>Job</label>
+                <input type="text" name="parent_job_father">
+            </div>
+        </div>
+
+        <h3>Mother Info</h3>
+        <div class="row">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="parent_name_mother">
+            </div>
+
+<div class="form-group">
+    <label>Téléphone</label>
+
+    <div style="display:flex; gap:10px;">
+
+        <select name="mother_country_code" required style="width:120px;">
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+39">🇮🇹 +39</option>
+        </select>
+
+        <input
+            type="tel"
+            name="parent_phone_mother"
+            placeholder="612345678"
+            required
+            style="flex:1;">
+    </div>
+</div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="parent_email_mother">
+            </div>
+
+            <div class="form-group">
+                <label>Job</label>
+                <input type="text" name="parent_job_mother">
+            </div>
+        </div>
+
+        <!-- ================= Emergency ================= -->
+        <div class="form-group">
+            <label>Emergency Phone</label>
+
+
+    <div style="display:flex; gap:10px;">
+
+        <select name="emergency_phone" required style="width:120px;">
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+39">🇮🇹 +39</option>
+        </select>
+
+        <input
+            type="tel"
+            name="emergency_phone"
+            placeholder="612345678"
+            required
+            style="flex:1;">
+    </div>
+</div>
+            <div class="form-group">
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                required>
+
+            </div>
+        <!-- ================= Submit ================= -->
+        <button type="submit">Save Student</button>
+
+    </form>
+</div>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const citySelect = document.getElementById("city");
+    const schoolSelect = document.getElementById("school");
+
+    citySelect.addEventListener("change", function () {
+
+        const city = this.value;
+
+        fetch(`/get-schools/?city=${city}`)
+            .then(response => response.json())
+            .then(data => {
+
+                schoolSelect.innerHTML = "";
+
+                if (data.length === 0) {
+
+                    schoolSelect.innerHTML =
+                        '<option value="">No school found</option>';
+
+                    return;
+                }
+
+                schoolSelect.innerHTML =
+                    '<option value="">Choose School</option>';
+
+                data.forEach(function (school) {
+
+                    let option = document.createElement("option");
+
+                    option.value = school.id;
+                    option.textContent = school.school_name;
+
+                    schoolSelect.appendChild(option);
+
+                });
+
+            })
+            .catch(error => {
+
+                console.error(error);
+
+                schoolSelect.innerHTML =
+                    '<option value="">Error loading schools</option>';
+
+            });
+
+    });
+
+});
+
+</script>
+</body>
+</html>

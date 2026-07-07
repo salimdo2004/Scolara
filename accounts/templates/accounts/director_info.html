@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Créer le Directeur | Scolara</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#2563eb,#0f172a);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.container{
+
+    width:100%;
+    max-width:550px;
+
+    background:white;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+
+}
+
+.header{
+
+    background:#1d4ed8;
+
+    color:white;
+
+    text-align:center;
+
+    padding:35px;
+
+}
+
+.header h2{
+
+    font-size:28px;
+
+    margin-bottom:8px;
+
+}
+
+.header p{
+
+    opacity:.9;
+
+    font-size:15px;
+
+}
+
+form{
+
+    padding:35px;
+
+}
+
+.form-group{
+
+    margin-bottom:22px;
+
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#334155;
+
+    font-weight:600;
+
+}
+
+input, select{
+
+    width:100%;
+
+    padding:14px;
+
+    border:1px solid #cbd5e1;
+
+    border-radius:10px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+input:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 10px rgba(37,99,235,.2);
+
+}
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#2563eb;
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#1d4ed8;
+
+    transform:translateY(-2px);
+
+}
+
+.footer{
+
+    text-align:center;
+
+    padding:20px;
+
+    background:#f8fafc;
+
+    color:#64748b;
+
+    font-size:14px;
+
+}
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    width:100%;
+    padding:14px 45px 14px 14px;
+}
+
+.toggle-password{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:20px;
+    user-select:none;
+    color:#64748b;
+}
+
+.toggle-password:hover{
+    color:#2563eb;
+}
+.error-message{
+    margin-top:10px;
+    padding:12px;
+    background:#fee2e2;
+    color:#b91c1c;
+    border:1px solid #fecaca;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:500;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <h2>👨‍💼 Informations du Directeur</h2>
+
+        <p>Créer le compte du directeur de l'établissement</p>
+
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+
+            <label>Nom complet</label>
+
+        <input
+            type="text"
+            name="full_name"
+            value="{{ full_name|default:'' }}"
+            placeholder="Ex : Ahmed El Idrissi"
+            required>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Adresse Email</label>
+
+        <input
+            type="email"
+            name="email"
+            value="{{ email|default:'' }}"
+            placeholder="directeur@scolara.com"
+            required>
+
+        </div>
+<div class="form-group">
+    <label>Téléphone</label>
+
+    <div style="display:flex; gap:10px;">
+
+        <select name="country_code" required style="width:120px;">
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+39">🇮🇹 +39</option>
+        </select>
+
+        <input
+            type="tel"
+            name="phone"
+            placeholder="612345678"
+            required
+            style="flex:1;">
+    </div>
+</div>
+
+
+<div class="form-group">
+
+    <label>Mot de passe</label>
+
+
+
+    <div class="password-box">
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="********"
+            required>
+
+        <span class="toggle-password" onclick="togglePassword()">
+            👁️
+        </span>
+
+    </div>
+
+    {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+    {% endif %}
+
+</div>
+
+
+        <button type="submit">
+
+             Créer le Directeur
+
+        </button>
+
+    </form>
+
+    <div class="footer">
+
+        © 2026 <strong>Scolara</strong> — Plateforme Intelligente de Gestion Scolaire
+
+    </div>
+
+</div>
+<script>
+
+function togglePassword() {
+
+    const password = document.getElementById("password");
+    const icon = document.querySelector(".toggle-password");
+
+    if (password.type === "password") {
+        password.type = "text";
+        icon.textContent = "🙈";
+    } else {
+        password.type = "password";
+        icon.textContent = "👁️";
+    }
+
+}
+
+</script>
+</body>
+</html>

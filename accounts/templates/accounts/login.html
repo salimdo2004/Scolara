@@ -109,13 +109,73 @@ button:hover{
     text-decoration:none;
     color:#007bff;
 }
+.form-group{
+    margin:18px 0;
+}
 
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    color:#444;
+    font-size:15px;
+    font-weight:600;
+}
+
+.password-box{
+    display:flex;
+    align-items:center;
+    background:#fff;
+    border:1px solid #dcdfe4;
+    border-radius:12px;
+    overflow:hidden;
+    transition:.3s;
+}
+
+.password-box:focus-within{
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,.15);
+}
+
+.password-box input{
+    flex:1;
+    border:none;
+    outline:none;
+    padding:14px 16px;
+    margin:0;
+    font-size:15px;
+    background:transparent;
+}
+
+.toggle-password{
+    width:55px;
+    height:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    color:#666;
+    font-size:20px;
+    transition:.3s;
+    border-left:1px solid #eee;
+}
+
+.toggle-password:hover{
+    background:#f5f7fb;
+    color:#2563eb;
+}
+.error-message{
+    margin-top:15px;
+    padding:12px;
+    background:#ffe5e5;
+    color:#d60000;
+    border:1px solid #ffb3b3;
+    border-radius:8px;
+    font-size:14px;
+    font-weight:600;
+}
 </style>
 </head>
-
 <body>
-
-
 
 <h1>Bienvenue sur Scolara</h1>
 <p class="subtitle">Choisissez votre profil pour continuer</p>
@@ -139,7 +199,9 @@ button:hover{
 
 </div>
 
-<!-- FORM USER -->
+<!-- ========================= -->
+<!-- FORM ETUDIANT -->
+<!-- ========================= -->
 
 <div id="userForm" class="form-container">
 
@@ -150,48 +212,99 @@ button:hover{
 
         <input type="hidden" name="role" value="student">
 
-        <input type="text"
-               name="student_id"
-               placeholder="ID Étudiant"
-               required>
+        <input
+            type="text"
+            name="student_id"
+            placeholder="ID Étudiant"
+            required>
 
-        <input type="password"
-               name="password"
-               placeholder="Mot de passe"
-               required>
-        
+        <div class="form-group">
+
+            <label>Mot de passe</label>
+
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Entrez votre mot de passe"
+                    required>
+
+                <span class="toggle-password"
+                      onclick="togglePassword(this)">
+                    👁️
+                </span>
+
+            </div>
+
+        </div>
+
+        {% if active_form == "student" %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
         <button type="submit">
             Se connecter
         </button>
-    </form>
 
+    </form>
 
 </div>
 
+
+<!-- ========================= -->
 <!-- FORM PARENT -->
+<!-- ========================= -->
 
 <div id="parentForm" class="form-container">
 
     <h2>👨‍👩‍👧 Connexion Parent</h2>
 
     <form method="POST">
+
         {% csrf_token %}
 
         <input type="hidden" name="role" value="parent">
 
-<input type="text" name="child_id" placeholder="ID Enfant" required>
+        <input
+            type="text"
+            name="child_id"
+            placeholder="ID Enfant"
+            required>
 
+        <div class="form-group">
 
-        <input type="password"
-               name="password"
-               placeholder="Mot de passe"
-               required>
+            <label>Mot de passe</label>
 
+            <div class="password-box">
 
-        
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Entrez votre mot de passe"
+                    required>
+
+                <span class="toggle-password"
+                      onclick="togglePassword(this)">
+                    👁️
+                </span>
+
+            </div>
+
+        </div>
+
+        {% if active_form == "parent" %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
         <button type="submit">
             Se connecter
         </button>
+
     </form>
 
     <div class="register-link">
@@ -202,57 +315,62 @@ button:hover{
 
 </div>
 
-<!-- FORM STAFF -->
+
+<!-- ========================= -->
+<!-- FORM DIRECTEUR -->
+<!-- ========================= -->
 
 <div id="staffForm" class="form-container">
 
     <h2>🏫 Connexion Directeur / Staff</h2>
 
     <form method="POST">
+
         {% csrf_token %}
 
-        <input type="hidden" name="role" value="staff">   
+        <input type="hidden" name="role" value="director">
 
-        <input type="text"
-               name="employee_id"
-               placeholder="ID Employé"
-               required>
+        <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required>
 
-        <input type="text"
-               name="school_code"
-               placeholder="Code École"
-               required>
+        <div class="form-group">
 
-        <input type="password"
-               name="password"
-               placeholder="Mot de passe"
-               required>
+            <label>Mot de passe</label>
 
-            
+            <div class="password-box">
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Entrez votre mot de passe"
+                    required>
+
+                <span class="toggle-password"
+                      onclick="togglePassword(this)">
+                    👁️
+                </span>
+
+            </div>
+
+        </div>
+
+        {% if active_form == "director" %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
 
         <button type="submit">
             Se connecter
         </button>
+
     </form>
 
-
-
 </div>
-{% if error %}
-<div style="
-    background:#ffdddd;
-    color:#a10000;
-    padding:10px;
-    margin:20px auto;
-    width:500px;
-    max-width:100%;
-    border:1px solid red;
-    border-radius:8px;
-    text-align:center;
-">
-    {{ error }}
-</div>
-{% endif %}
+
 
 <script>
 
@@ -274,6 +392,22 @@ function showForm(type){
         document.getElementById('staffForm').style.display='block';
     }
 }
+
+
+function togglePassword(icon){
+
+    const input = icon.previousElementSibling;
+
+    if(input.type === "password"){
+        input.type = "text";
+        icon.textContent = "🙈";
+    }else{
+        input.type = "password";
+        icon.textContent = "👁️";
+    }
+
+}
+
 
 </script>
 

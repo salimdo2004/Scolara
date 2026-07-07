@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Ajouter un Professeur | Scolara</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#2563eb,#0f172a);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.container{
+    width:100%;
+    max-width:700px;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.header{
+    background:#1d4ed8;
+    color:white;
+    text-align:center;
+    padding:30px;
+}
+
+.header h2{
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.header p{
+    opacity:.9;
+}
+
+form{
+    padding:35px;
+}
+
+.school{
+    background:#eff6ff;
+    color:#1e3a8a;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:30px;
+    text-align:center;
+    font-weight:600;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group.full{
+    grid-column:1/3;
+}
+
+label{
+    margin-bottom:8px;
+    font-weight:600;
+    color:#334155;
+}
+
+input, select{
+    padding:14px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    outline:none;
+    transition:.3s;
+    font-size:15px;
+}
+
+
+input:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 10px rgba(37,99,235,.2);
+}
+select:hover {
+    border-color: #6366F1;
+}
+
+select:focus {
+    box-shadow: 0 0 8px rgba(79,70,229,.3);
+}
+
+.btn-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+.btn-submit{
+    padding:15px 35px;
+    min-width:280px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:#fff;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    width:50%;
+    max-width:500px;
+}
+
+
+.btn-submit:hover{
+    background: #1d4ed8;
+}
+
+
+
+
+@media(max-width:700px){
+
+    .footer-links{
+        flex-direction:column;
+        text-align:center;
+    }
+
+}
+
+@media(max-width:700px){
+
+.grid{
+    grid-template-columns:1fr;
+}
+
+.form-group.full{
+    grid-column:auto;
+}
+
+}
+
+.password-box{
+    position:relative;
+}
+
+.password-box input{
+    width:100%;
+    padding:14px 45px 14px 14px;
+}
+
+.toggle-password{
+    position:absolute;
+    right:15px;
+    top:50%;
+    transform:translateY(-50%);
+    cursor:pointer;
+    font-size:20px;
+    user-select:none;
+    color:#64748b;
+}
+
+.toggle-password:hover{
+    color:#2563eb;
+}
+.error-message{
+    margin-top:10px;
+    padding:12px;
+    background:#fee2e2;
+    color:#b91c1c;
+    border:1px solid #fecaca;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:500;
+}
+
+
+.footer-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+
+    padding:25px 35px;
+    border-top:1px solid #e5e7eb;
+    background:#fff;
+}
+
+.link-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 22px;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:600;
+    font-size:15px;
+    color:#374151;
+    background:#f3f4f6;
+    transition:all .3s ease;
+}
+
+.link-btn:hover{
+    background:#e5e7eb;
+    transform:translateY(-2px);
+}
+
+.link-btn.primary{
+    background:#2563eb;
+    color:#fff;
+}
+
+.link-btn.primary:hover{
+    background:#1d4ed8;
+}
+
+@media (max-width:768px){
+    .footer-actions{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    .footer-actions .link-btn{
+        width:100%;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h2>👨‍🏫 Ajouter un Professeur</h2>
+        <p>Plateforme de Gestion Scolaire Scolara</p>
+    </div>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="school">
+            🏫 École : <strong>{{ school.school_name }}</strong>
+        </div>
+
+        <div class="grid">
+
+            <div class="form-group">
+                <label>ID Professeur</label>
+                <input
+                    type="text"
+                    name="teacher_id"
+                    placeholder="PROF001"
+                    required>
+                        {% if error %}
+    <div class="error-message">
+        {{ error }}
+    </div>
+    {% endif %}
+            </div>
+
+<div class="form-group">
+    <label>Niveau</label>
+    <select id="level" onchange="updateSubjects(); combineSubject();" required>
+        <option value="">-- Sélectionner un niveau --</option>
+        <option value="Primaire">Primaire</option>
+        <option value="Collège">Collège</option>
+        <option value="Lycée">Lycée</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Matière</label>
+    <select id="subject_select" onchange="combineSubject()" required>
+        <option value="">Sélectionner une matière</option>
+    </select>
+</div>
+
+<!-- Champ envoyé à Django -->
+<input type="hidden" name="subject" id="subject">
+
+
+            <div class="form-group full">
+                <label>Nom complet</label>
+                <input
+                    type="text"
+                    name="full_name"
+                    placeholder="Nom complet"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="prof@scolara.com"
+                    required>
+            </div>
+
+<div class="form-group">
+    <label>Téléphone</label>
+
+    <div style="display:flex; gap:10px;">
+
+        <select name="country_code" required style="width:120px;">
+            <option value="+212">🇲🇦 +212</option>
+            <option value="+33">🇫🇷 +33</option>
+            <option value="+32">🇧🇪 +32</option>
+            <option value="+34">🇪🇸 +34</option>
+            <option value="+1">🇺🇸 +1</option>
+            <option value="+44">🇬🇧 +44</option>
+            <option value="+49">🇩🇪 +49</option>
+            <option value="+39">🇮🇹 +39</option>
+        </select>
+
+        <input
+            type="tel"
+            name="phone"
+            placeholder="612345678"
+            required
+            style="flex:1;">
+    </div>
+</div>
+
+        <div class="form-group full">
+                <label>Mot de passe</label>
+
+
+
+                    <div class="password-box">
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="********"
+                            required>
+
+                        <span class="toggle-password" onclick="togglePassword()">
+                            👁️
+                        </span>
+
+                    </div>
+
+                
+
+        </div>
+    
+
+<div class="btn-container">
+    <button type="submit" class="btn-submit">
+        ➕ Ajouter le Professeur
+    </button>
+</div>
+
+</form>
+
+<div class="footer-actions">
+
+    <a href="{% url 'create_staff' school.id %}" class="link-btn">
+        ← Retour au staff
+    </a>
+
+    <a href="{% url 'student_form' school.id %}" class="link-btn primary">
+        Dashboard →
+    </a>
+
+</div>
+
+
+</div>
+<script>
+
+function togglePassword() {
+
+    const password = document.getElementById("password");
+    const icon = document.querySelector(".toggle-password");
+
+    if (password.type === "password") {
+        password.type = "text";
+        icon.textContent = "🙈";
+    } else {
+        password.type = "password";
+        icon.textContent = "👁️";
+    }
+
+}
+const subjects = {
+    "Primaire": [
+        "Mathématiques",
+        "Français",
+        "Arabe",
+        "Sciences"
+    ],
+
+    "Collège": [
+        "Mathématiques",
+        "Français",
+        "Physique-Chimie",
+        "SVT",
+        "Anglais"
+    ],
+
+    "Lycée": [
+        "Mathématiques",
+        "Physique-Chimie",
+        "SVT",
+        "Philosophie",
+        "Économie"
+    ]
+};
+
+function updateSubjects() {
+
+    const level = document.getElementById("level").value;
+    const select = document.getElementById("subject_select");
+
+    select.innerHTML = '<option value="">Sélectionner une matière</option>';
+
+    if (subjects[level]) {
+        subjects[level].forEach(subject => {
+
+            let option = document.createElement("option");
+            option.value = subject;
+            option.textContent = subject;
+
+            select.appendChild(option);
+        });
+    }
+
+    combineSubject();
+}
+
+function combineSubject() {
+
+    const level = document.getElementById("level").value;
+    const subject = document.getElementById("subject_select").value;
+
+    const result = level && subject ? `${level} - ${subject}` : "";
+
+    document.getElementById("subject").value = result;
+
+
+}
+
+</script>
+</body>
+</html>

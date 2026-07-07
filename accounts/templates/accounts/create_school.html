@@ -1,49 +1,232 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Créer une école</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <style>
-        body{
-            font-family: Arial, sans-serif;
-            background:#f4f4f4;
-            padding:30px;
-        }
+     *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
 
-        .container{
-            width: 600px;
-            margin:auto;
-            background:white;
-            padding:20px;
-            border-radius:10px;
-            box-shadow:0 0 10px rgba(0,0,0,0.1);
-        }
+body{
 
-        h2{
-            text-align:center;
-        }
+    min-height:100vh;
 
-        input{
-            width:100%;
-            padding:10px;
-            margin:8px 0;
-            border:1px solid #ccc;
-            border-radius:5px;
-        }
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-        button{
-            width:100%;
-            padding:12px;
-            background:#28a745;
-            color:white;
-            border:none;
-            border-radius:5px;
-            font-size:16px;
-            cursor:pointer;
-        }
+    background:linear-gradient(135deg,#4F46E5,#3B82F6,#06B6D4);
 
-        button:hover{
-            background:#218838;
-        }
+    background-size:300% 300%;
+    animation:gradientMove 10s ease infinite;
+
+    padding:40px;
+}
+
+@keyframes gradientMove{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+
+}
+
+.container{
+
+    width:750px;
+
+    background:rgba(255,255,255,.96);
+
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    box-shadow:
+    0 15px 45px rgba(0,0,0,.18);
+
+    animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+        transform:translateY(0);
+
+    }
+
+}
+
+h2{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+    color:#1E293B;
+
+    font-size:32px;
+
+    font-weight:700;
+}
+
+form{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:18px;
+}
+
+input,
+select{
+
+    width:100%;
+
+    padding:14px 18px;
+
+    border-radius:12px;
+
+    border:2px solid #E5E7EB;
+
+    font-size:15px;
+
+    transition:.35s;
+
+    background:#F8FAFC;
+}
+
+input:focus,
+select:focus{
+
+    outline:none;
+
+    border-color:#4F46E5;
+
+    background:white;
+
+    box-shadow:0 0 0 4px rgba(79,70,229,.15);
+
+    transform:translateY(-2px);
+}
+
+button{
+
+    grid-column:1/-1;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:linear-gradient(135deg,#4F46E5,#3B82F6);
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 15px 30px rgba(59,130,246,.35);
+
+}
+
+button::before{
+
+    content:"";
+
+    position:absolute;
+
+    left:-120px;
+    top:0;
+
+    width:80px;
+    height:100%;
+
+    background:rgba(255,255,255,.4);
+
+    transform:skewX(-25deg);
+
+}
+
+button:hover::before{
+
+    animation:shine .8s linear;
+
+}
+
+@keyframes shine{
+
+    from{
+
+        left:-120px;
+
+    }
+
+    to{
+
+        left:850px;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    form{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .container{
+
+        width:100%;
+        padding:25px;
+
+    }
+
+}
     </style>
 </head>
 <body>
@@ -55,29 +238,329 @@
     <form method="POST">
         {% csrf_token %}
 
-        <!-- École -->
-        <input type="text" name="school_name" placeholder="Nom de l’école">
-        <input type="text" name="school_type" placeholder="Type (publique / privée / autre)">
-        <input type="text" name="level" placeholder="Niveau (primaire / collège / lycée / mixte)">
-        <input type="text" name="school_code" placeholder="Code de l’école (optionnel)">
-        <input type="date" name="year_created" placeholder="Année de création">
+        <!-- Informations école -->
+        <input type="text" name="school_name" placeholder="Nom de l’école" required>
+
+        <!--<input type="text" name="school_type"
+               placeholder="Type (publique / privée / autre)" required> -->
+
+
+<select name="school_type" id="school_type" required>
+    <option value="">-- Sélectionner un type --</option>
+
+    <optgroup label="Établissements classiques">
+        <option value="publique">🏫 École publique</option>
+        <option value="privee">🏢 École privée</option>
+        <option value="mission">🌍 École de mission</option>
+        <option value="internationale">🌎 École internationale</option>
+    </optgroup>
+
+    <optgroup label="Établissements spécialisés">
+        <option value="langues">🗣️ École de langues</option>
+        <option value="technique">⚙️ École technique</option>
+        <option value="professionnelle">💼 École professionnelle</option>
+        <option value="artistique">🎨 École artistique</option>
+        <option value="religieuse">🕌 École religieuse</option>
+        <option value="inclusive">♿ École inclusive</option>
+    </optgroup>
+</select>
+
+
+<select name="level" id="level" required>
+    <option value="">Choisir d'abord le type d'établissement</option>
+</select>
+        <input type="text" name="school_code"
+               placeholder="Code de l’école (optionnel)">
+
+        <input type="date" name="year_created">
+
+
+
+        <!-- Région -->
+        <select name="region" id="region" required>
+            <option value="">-- Sélectionner une région --</option>
+            <option value="Rabat-Salé-Kénitra">Rabat-Salé-Kénitra</option>
+            <option value="Casablanca-Settat">Casablanca-Settat</option>
+            <option value="Marrakech-Safi">Marrakech-Safi</option>
+            <option value="Fès-Meknès">Fès-Meknès</option>
+            <option value="Tanger-Tétouan-Al Hoceïma">Tanger-Tétouan-Al Hoceïma</option>
+            <option value="Souss-Massa">Souss-Massa</option>
+            <option value="Oriental">Oriental</option>
+            <option value="Béni Mellal-Khénifra">Béni Mellal-Khénifra</option>
+            <option value="Drâa-Tafilalet">Drâa-Tafilalet</option>
+            <option value="Guelmim-Oued Noun">Guelmim-Oued Noun</option>
+            <option value="Laâyoune-Sakia El Hamra">Laâyoune-Sakia El Hamra</option>
+            <option value="Dakhla-Oued Ed-Dahab">Dakhla-Oued Ed-Dahab</option>
+        </select>
+
+        <!-- Ville -->
+        <select name="city" id="city" required>
+            <option value="">-- Sélectionner une ville --</option>
+        </select>
 
         <!-- Adresse -->
-        <input type="text" name="address" placeholder="Adresse complète">
-        <input type="text" name="region" placeholder="Région">
-        <input type="text" name="city" placeholder="Ville">        
-        <input type="text" name="postal_code" placeholder="Code postal (optionnel)">
+        <input type="text" name="address"
+               placeholder="Adresse complète" required>
+               
+        <input type="text" name="postal_code"
+               placeholder="Code postal (optionnel)">
 
-        <!-- Directeur -->
-        <input type="text" name="director_name" placeholder="Nom complet du directeur">
-        <input type="email" name="director_email" placeholder="Email professionnel">
-        <input type="text" name="director_phone" placeholder="Numéro de téléphone">
-        <input type="password" name="director_password" placeholder="Mot de passe / accès">
+        <button type="submit">
+            Créer l’école
+        </button>
 
-        <button type="submit">Créer l’école</button>
     </form>
 
 </div>
+
+<script>
+
+const cities = {
+
+    "Rabat-Salé-Kénitra": [
+        "Rabat",
+        "Salé",
+        "Kénitra",
+        "Témara",
+        "Skhirat",
+        "Sidi Kacem",
+        "Sidi Slimane"
+    ],
+
+    "Casablanca-Settat": [
+        "Casablanca",
+        "Mohammedia",
+        "Settat",
+        "Berrechid",
+        "El Jadida",
+        "Benslimane",
+        "Sidi Bennour"
+    ],
+
+    "Marrakech-Safi": [
+        "Marrakech",
+        "Safi",
+        "Essaouira",
+        "Youssoufia",
+        "Chichaoua",
+        "El Kelâa des Sraghna"
+    ],
+
+    "Fès-Meknès": [
+        "Fès",
+        "Meknès",
+        "Taza",
+        "Ifrane",
+        "Azrou",
+        "Sefrou",
+        "El Hajeb"
+    ],
+
+    "Tanger-Tétouan-Al Hoceïma": [
+        "Tanger",
+        "Tétouan",
+        "Al Hoceïma",
+        "Chefchaouen",
+        "Larache",
+        "Assilah",
+        "Fnideq"
+    ],
+
+    "Souss-Massa": [
+        "Agadir",
+        "Taroudant",
+        "Tiznit",
+        "Inezgane",
+        "Biougra",
+        "Aït Melloul"
+    ],
+
+    "Oriental": [
+        "Oujda",
+        "Nador",
+        "Berkane",
+        "Taourirt",
+        "Jerada",
+        "Driouch"
+    ],
+
+    "Béni Mellal-Khénifra": [
+        "Béni Mellal",
+        "Khénifra",
+        "Azilal",
+        "Fquih Ben Salah",
+        "Kasba Tadla"
+    ],
+
+    "Drâa-Tafilalet": [
+        "Errachidia",
+        "Ouarzazate",
+        "Midelt",
+        "Zagora",
+        "Tinghir"
+    ],
+
+    "Guelmim-Oued Noun": [
+        "Guelmim",
+        "Sidi Ifni",
+        "Tan-Tan"
+    ],
+
+    "Laâyoune-Sakia El Hamra": [
+        "Laâyoune",
+        "Boujdour",
+        "Tarfaya"
+    ],
+
+    "Dakhla-Oued Ed-Dahab": [
+        "Dakhla",
+        "Aousserd"
+    ]
+};
+
+const regionSelect = document.getElementById("region");
+const citySelect = document.getElementById("city");
+
+regionSelect.addEventListener("change", function() {
+
+    citySelect.innerHTML =
+        '<option value="">-- Sélectionner une ville --</option>';
+
+    const selectedRegion = this.value;
+
+    if(cities[selectedRegion]) {
+
+        cities[selectedRegion].forEach(function(city){
+
+            const option = document.createElement("option");
+
+            option.value = city;
+            option.textContent = city;
+
+            citySelect.appendChild(option);
+
+        });
+
+    }
+
+});
+const inputs=document.querySelectorAll("input,select");
+
+inputs.forEach((input,index)=>{
+
+    input.style.opacity="0";
+    input.style.transform="translateY(25px)";
+
+    setTimeout(()=>{
+
+        input.style.transition=".5s";
+
+        input.style.opacity="1";
+        input.style.transform="translateY(0)";
+
+    },index*100);
+
+});
+
+
+const levels = {
+
+    publique: [
+        "Maternelle",
+        "Primaire",
+        "Collège",
+        "Lycée"
+    ],
+
+    privee: [
+        "Maternelle",
+        "Primaire",
+        "Collège",
+        "Lycée"
+    ],
+
+    mission: [
+        "Maternelle",
+        "Primaire",
+        "Collège",
+        "Lycée"
+    ],
+
+    internationale: [
+        "Maternelle",
+        "Primaire",
+        "Collège",
+        "Lycée"
+    ],
+
+    langues: [
+        "Enfants",
+        "Adolescents",
+        "Adultes",
+        "Tous niveaux"
+    ],
+
+    technique: [
+        "Collège",
+        "Lycée",
+        "Formation technique"
+    ],
+
+    professionnelle: [
+        "Qualification",
+        "Technicien",
+        "Technicien spécialisé",
+        "BTS"
+    ],
+
+    artistique: [
+        "Débutant",
+        "Intermédiaire",
+        "Avancé"
+    ],
+
+    religieuse: [
+        "Préscolaire",
+        "Primaire",
+        "Secondaire"
+    ],
+
+    inclusive: [
+        "Maternelle",
+        "Primaire",
+        "Collège",
+        "Lycée"
+    ]
+};
+
+const schoolType = document.getElementById("school_type");
+const level = document.getElementById("level");
+
+schoolType.addEventListener("change", function () {
+
+    level.innerHTML = "";
+
+    const first = document.createElement("option");
+    first.value = "";
+    first.textContent = "-- Sélectionner un niveau --";
+    level.appendChild(first);
+
+    if (levels[this.value]) {
+
+        levels[this.value].forEach(item => {
+
+            const option = document.createElement("option");
+            option.value = item.toLowerCase().replace(/\s+/g, "_");
+            option.textContent = item;
+
+            level.appendChild(option);
+
+        });
+
+    }
+
+});
+</script>
 
 </body>
 </html>
