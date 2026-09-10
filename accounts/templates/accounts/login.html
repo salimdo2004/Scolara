@@ -1,415 +1,191 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scolara</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+    <title>Scolara - Connexion</title>
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family: Arial, sans-serif;
-}
+    <style>
 
-body{
-    background:#f4f6f9;
-    padding:40px;
-}
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial,sans-serif;
+        }
 
-h1{
-    text-align:center;
-    color:#333;
-}
+        body{
+            min-height:100vh;
+            background:#f4f6f9;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+        }
 
-.subtitle{
-    text-align:center;
-    margin-top:10px;
-    color:#666;
-}
+        .container{
+            width:100%;
+            max-width:1000px;
+            padding:40px 20px;
+        }
 
-.cards{
-    display:flex;
-    justify-content:center;
-    gap:30px;
-    margin-top:50px;
-    flex-wrap:wrap;
-}
+        h1{
+            text-align:center;
+            color:#222;
+            font-size:38px;
+            margin-bottom:10px;
+        }
 
-.card{
-    width:280px;
-    background:white;
-    border-radius:15px;
-    padding:25px;
-    text-align:center;
-    cursor:pointer;
-    transition:0.3s;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
+        .subtitle{
+            text-align:center;
+            color:#666;
+            margin-bottom:50px;
+            font-size:17px;
+        }
 
-.card:hover{
-    transform:translateY(-5px);
-}
+        .cards{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:25px;
+        }
 
-.card h2{
-    margin-bottom:10px;
-}
+        .card{
+            background:white;
+            padding:40px 25px;
+            border-radius:18px;
+            text-align:center;
+            cursor:pointer;
+            text-decoration:none;
+            color:#222;
+            box-shadow:0 8px 25px rgba(0,0,0,.08);
+            transition:.3s;
+        }
 
-.card p{
-    color:#666;
-}
+        .card:hover{
+            transform:translateY(-8px);
+            box-shadow:0 15px 35px rgba(0,0,0,.15);
+        }
 
-.form-container{
-    display:none;
-    width:500px;
-    max-width:100%;
-    margin:40px auto;
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-}
+        .icon{
+            font-size:55px;
+            margin-bottom:20px;
+        }
 
-.form-container h2{
-    text-align:center;
-    margin-bottom:20px;
-}
+        .card h2{
+            margin-bottom:12px;
+            font-size:22px;
+        }
 
-input{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border:1px solid #ccc;
-    border-radius:8px;
-}
+        .card p{
+            color:#666;
+            font-size:15px;
+        }
 
-button{
-    width:100%;
-    padding:12px;
-    background:#007bff;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:16px;
-}
+        .login-button{
+            display:inline-block;
+            margin-top:25px;
+            padding:11px 25px;
+            background:#2563eb;
+            color:white;
+            border-radius:8px;
+            font-size:14px;
+        }
 
-button:hover{
-    background:#0056b3;
-}
+        @media(max-width:800px){
 
-.register-link{
-    text-align:center;
-    margin-top:15px;
-}
+            .cards{
+                grid-template-columns:1fr;
+            }
 
-.register-link a{
-    text-decoration:none;
-    color:#007bff;
-}
-.form-group{
-    margin:18px 0;
-}
+            h1{
+                font-size:30px;
+            }
 
-.form-group label{
-    display:block;
-    margin-bottom:8px;
-    color:#444;
-    font-size:15px;
-    font-weight:600;
-}
+        }
 
-.password-box{
-    display:flex;
-    align-items:center;
-    background:#fff;
-    border:1px solid #dcdfe4;
-    border-radius:12px;
-    overflow:hidden;
-    transition:.3s;
-}
-
-.password-box:focus-within{
-    border-color:#2563eb;
-    box-shadow:0 0 0 4px rgba(37,99,235,.15);
-}
-
-.password-box input{
-    flex:1;
-    border:none;
-    outline:none;
-    padding:14px 16px;
-    margin:0;
-    font-size:15px;
-    background:transparent;
-}
-
-.toggle-password{
-    width:55px;
-    height:50px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    color:#666;
-    font-size:20px;
-    transition:.3s;
-    border-left:1px solid #eee;
-}
-
-.toggle-password:hover{
-    background:#f5f7fb;
-    color:#2563eb;
-}
-.error-message{
-    margin-top:15px;
-    padding:12px;
-    background:#ffe5e5;
-    color:#d60000;
-    border:1px solid #ffb3b3;
-    border-radius:8px;
-    font-size:14px;
-    font-weight:600;
-}
-</style>
+    </style>
 </head>
+
 <body>
 
-<h1>Bienvenue sur Scolara</h1>
-<p class="subtitle">Choisissez votre profil pour continuer</p>
+<div class="container">
 
-<div class="cards">
+    <h1>Bienvenue sur Scolara</h1>
 
-    <div class="card" onclick="showForm('user')">
-        <h2>👨‍🎓 User</h2>
-        <p>Espace Étudiant</p>
-    </div>
+    <p class="subtitle">
+        Choisissez votre profil pour vous connecter
+    </p>
 
-    <div class="card" onclick="showForm('parent')">
-        <h2>👨‍👩‍👧 Parent</h2>
-        <p>Espace Parent</p>
-    </div>
 
-    <div class="card" onclick="showForm('staff')">
-        <h2>🏫 Directeur / Staff</h2>
-        <p>Administration</p>
-    </div>
+    <div class="cards">
 
-</div>
 
-<!-- ========================= -->
-<!-- FORM ETUDIANT -->
-<!-- ========================= -->
+        <!-- ETUDIANT -->
 
-<div id="userForm" class="form-container">
+        <a href="{% url 'student_login' %}" class="card">
 
-    <h2>👨‍🎓 Connexion Étudiant</h2>
-
-    <form method="POST">
-        {% csrf_token %}
-
-        <input type="hidden" name="role" value="student">
-
-        <input
-            type="text"
-            name="student_id"
-            placeholder="ID Étudiant"
-            required>
-
-        <div class="form-group">
-
-            <label>Mot de passe</label>
-
-            <div class="password-box">
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Entrez votre mot de passe"
-                    required>
-
-                <span class="toggle-password"
-                      onclick="togglePassword(this)">
-                    👁️
-                </span>
-
+            <div class="icon">
+                👨‍🎓
             </div>
 
-        </div>
+            <h2>Étudiant</h2>
 
-        {% if active_form == "student" %}
-        <div class="error-message">
-            {{ error }}
-        </div>
-        {% endif %}
+            <p>
+                Accéder à votre espace étudiant
+            </p>
 
-        <button type="submit">
-            Se connecter
-        </button>
+            <span class="login-button">
+                Se connecter
+            </span>
 
-    </form>
-
-</div>
-
-
-<!-- ========================= -->
-<!-- FORM PARENT -->
-<!-- ========================= -->
-
-<div id="parentForm" class="form-container">
-
-    <h2>👨‍👩‍👧 Connexion Parent</h2>
-
-    <form method="POST">
-
-        {% csrf_token %}
-
-        <input type="hidden" name="role" value="parent">
-
-        <input
-            type="text"
-            name="child_id"
-            placeholder="ID Enfant"
-            required>
-
-        <div class="form-group">
-
-            <label>Mot de passe</label>
-
-            <div class="password-box">
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Entrez votre mot de passe"
-                    required>
-
-                <span class="toggle-password"
-                      onclick="togglePassword(this)">
-                    👁️
-                </span>
-
-            </div>
-
-        </div>
-
-        {% if active_form == "parent" %}
-        <div class="error-message">
-            {{ error }}
-        </div>
-        {% endif %}
-
-        <button type="submit">
-            Se connecter
-        </button>
-
-    </form>
-
-    <div class="register-link">
-        <a href="{% url 'register' %}">
-            Créer un compte parent
         </a>
+
+
+        <!-- PARENT -->
+
+        <a href="{% url 'parent_login' %}" class="card">
+
+            <div class="icon">
+                👨‍👩‍👧
+            </div>
+
+            <h2>Parent</h2>
+
+            <p>
+                Accéder à votre espace parent
+            </p>
+
+            <span class="login-button">
+                Se connecter
+            </span>
+
+        </a>
+
+
+        <!-- STAFF -->
+
+        <a href="{% url 'staff_login' %}" class="card">
+
+            <div class="icon">
+                🏫
+            </div>
+
+            <h2>Directeur / Staff</h2>
+
+            <p>
+                Accéder à l'administration
+            </p>
+
+            <span class="login-button">
+                Se connecter
+            </span>
+
+        </a>
+
+
     </div>
 
 </div>
-
-
-<!-- ========================= -->
-<!-- FORM DIRECTEUR -->
-<!-- ========================= -->
-
-<div id="staffForm" class="form-container">
-
-    <h2>🏫 Connexion Directeur / Staff</h2>
-
-    <form method="POST">
-
-        {% csrf_token %}
-
-        <input type="hidden" name="role" value="director">
-
-        <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required>
-
-        <div class="form-group">
-
-            <label>Mot de passe</label>
-
-            <div class="password-box">
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Entrez votre mot de passe"
-                    required>
-
-                <span class="toggle-password"
-                      onclick="togglePassword(this)">
-                    👁️
-                </span>
-
-            </div>
-
-        </div>
-
-        {% if active_form == "director" %}
-        <div class="error-message">
-            {{ error }}
-        </div>
-        {% endif %}
-
-        <button type="submit">
-            Se connecter
-        </button>
-
-    </form>
-
-</div>
-
-
-<script>
-
-function showForm(type){
-
-    document.getElementById('userForm').style.display='none';
-    document.getElementById('parentForm').style.display='none';
-    document.getElementById('staffForm').style.display='none';
-
-    if(type === 'user'){
-        document.getElementById('userForm').style.display='block';
-    }
-
-    if(type === 'parent'){
-        document.getElementById('parentForm').style.display='block';
-    }
-
-    if(type === 'staff'){
-        document.getElementById('staffForm').style.display='block';
-    }
-}
-
-
-function togglePassword(icon){
-
-    const input = icon.previousElementSibling;
-
-    if(input.type === "password"){
-        input.type = "text";
-        icon.textContent = "🙈";
-    }else{
-        input.type = "password";
-        icon.textContent = "👁️";
-    }
-
-}
-
-
-</script>
 
 </body>
 </html>

@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import check_password
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.contrib.auth import authenticate, login
 # =========================
 # HOME
 # =========================
@@ -37,7 +38,8 @@ def register(request):
 
     return render(request, 'accounts/register.html')
 
-
+def student_form(request):
+    return render(request, "accounts/student_form.html")
 # =========================
 # LOGIN
 # =========================
@@ -88,13 +90,13 @@ def login_view(request):
         # =========================
         # STUDENT LOGIN
         # =========================
-    elif role == 'student':
+        elif role == 'student':
 
             student_id = request.POST.get('student_id', '').strip()
             password = request.POST.get('password', '').strip()
 
             if not student_id or not password:
-                return render(request, 'accounts/login.html', {
+                return render(request, 'student/index.html', {
                     'error': 'Tous les champs sont obligatoires',
                     'active_form': 'student'
                 })
@@ -106,9 +108,9 @@ def login_view(request):
                 request.session['user_role'] = 'student'
                 request.session['user_id'] = student.id
 
-                return redirect('profile')
+                return redirect('student_dashboard')
 
-            return render(request, 'accounts/login.html', {
+            return render(request, 'student/index.html', {
                 'error': 'ID étudiant ou mot de passe incorrect',
                 'active_form': 'student'
             })
@@ -117,7 +119,7 @@ def login_view(request):
         # =========================
         # STAFF LOGIN
         # =========================
-    elif role == 'staff':
+        elif role == 'staff':
 
             employee_id = request.POST.get('employee_id', '').strip()
             school_code = request.POST.get('school_code', '').strip()
@@ -142,31 +144,31 @@ def login_view(request):
 
 
 
-    elif role == 'director':
+        elif role == 'director':
 
-        email = request.POST.get('email', '').strip()
-        password = request.POST.get('password', '').strip()
+            email = request.POST.get('email', '').strip()
+            password = request.POST.get('password', '').strip()
 
-        if not email or not password:
+            if not email or not password:
+                return render(request, 'accounts/login.html', {
+                    'error': 'Tous les champs sont obligatoires',
+                    'active_form': 'director'
+                })
+
+            director = Director.objects.filter(email=email).first()
+
+            if director and director.password == password:
+
+                request.session['user_role'] = 'director'
+                request.session['user_id'] = director.id
+
+                return redirect('profile')
+
             return render(request, 'accounts/login.html', {
-                'error': 'Tous les champs sont obligatoires',
+                'error': 'Email ou mot de passe incorrect',
                 'active_form': 'director'
             })
-
-        director = Director.objects.filter(email=email).first()
-
-        if director and director.password == password:
-
-            request.session['user_role'] = 'director'
-            request.session['user_id'] = director.id
-
-            return redirect('profile')
-
-        return render(request, 'accounts/login.html', {
-            'error': 'Email ou mot de passe incorrect',
-            'active_form': 'director'
-        })
-        
+            
     return render(request, 'accounts/login.html')
 # =========================
 # PROFILE
@@ -193,7 +195,7 @@ def profile(request):
     elif role == 'director':
         user = Director.objects.get(id=user_id)    
 
-    return render(request, 'accounts/profile.html', {
+    return render(request, 'student/index.html', {
         'user': user,
         'role': role
     })
@@ -466,3 +468,146 @@ def get_schools(request):
     )
 
     return JsonResponse(list(schools), safe=False)
+
+def student_dashboard(request):
+
+    student_id = request.session.get("student_id")
+
+    if not student_id:
+        return redirect("student_login")
+
+    try:
+        student = Student.objects.get(
+            student_id=student_id
+        )
+    except Student.DoesNotExist:
+        request.session.flush()
+        return redirect("student_login")
+
+    return render(
+        request,
+        "student/index.html",
+        {
+            "student": student
+        }
+    )
+
+# =========================
+# STUDENT LOGIN
+# =========================
+def student_login(request):
+
+    if request.method == "POST":
+
+        student_id = request.POST.get("student_id", "").strip()
+        password = request.POST.get("password", "")
+
+        print("ID reçu :", student_id)
+        print("Password reçu :", password)
+
+        try:
+            student = Student.objects.get(student_id=student_id)
+
+        except Student.DoesNotExist:
+            return render(
+                request,
+                "accounts/student_login.html",
+                {
+                    "error": "ID étudiant incorrect."
+                }
+            )
+
+        print("Étudiant trouvé :", student)
+
+        if check_password(password, student.password):
+
+            print("CONNEXION OK")
+
+            request.session["student_id"] = student.student_id
+            request.session["student_db_id"] = student.id
+
+            return redirect("student_dashboard")
+
+        else:
+
+            print("MOT DE PASSE INCORRECT")
+
+            return render(
+                request,
+                "accounts/student_login.html",
+                {
+                    "error": "Mot de passe incorrect."
+                }
+            )
+
+    return render(
+        request,
+        "accounts/student_login.html"
+    )
+
+# =========================
+# PARENT LOGIN
+# =========================
+def parent_login(request):
+
+    if request.method == "POST":
+
+        child_id = request.POST.get("child_id", "").strip()
+        password = request.POST.get("password", "").strip()
+
+        if not child_id or not password:
+            return render(request, "accounts/parent_login.html", {
+                "error": "Tous les champs sont obligatoires"
+            })
+
+        parent = Parent.objects.filter(
+            child_id=child_id
+        ).first()
+
+        if parent and parent.password == password:
+
+            request.session["user_role"] = "parent"
+            request.session["user_id"] = parent.id
+
+            return redirect("profile")
+
+        return render(request, "accounts/parent_login.html", {
+            "error": "ID enfant ou mot de passe incorrect"
+        })
+
+    return render(request, "accounts/parent_login.html")
+
+
+# =========================
+# STAFF LOGIN
+# =========================
+def staff_login(request):
+
+    if request.method == "POST":
+
+        employee_id = request.POST.get("employee_id", "").strip()
+        school_code = request.POST.get("school_code", "").strip()
+        password = request.POST.get("password", "").strip()
+
+        if not employee_id or not school_code or not password:
+            return render(request, "accounts/staff_login.html", {
+                "error": "Tous les champs sont obligatoires"
+            })
+
+        staff = Staff.objects.filter(
+            employee_id=employee_id,
+            school_code=school_code
+        ).first()
+
+        if staff and staff.password == password:
+
+            request.session["user_role"] = "staff"
+            request.session["user_id"] = staff.id
+
+            return redirect("profile")
+
+        return render(request, "accounts/staff_login.html", {
+            "error": "ID employé, code école ou mot de passe incorrect"
+        })
+
+    return render(request, "accounts/staff_login.html")

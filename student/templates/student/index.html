@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <!-- <link rel="stylesheet" href="../static/css/styles.css">-->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"> 
+</head>
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    display:flex;
+    background:#f4f6f9;
+}
+
+/* ================= Sidebar ================= */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:260px;
+    height:100vh;
+    background:#fff;
+    box-shadow:0 0 15px rgba(0,0,0,.1);
+    transition:.3s;
+    overflow:hidden;
+    z-index:1000;
+}
+
+.sidebar.close{
+    width:70px;
+}
+
+/* ================= Button ================= */
+
+#toggleBtn{
+    position:absolute;
+    top:18px;
+    right:18px;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    background:#4f46e5;
+    color:#fff;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    transition:.3s;
+}
+
+#toggleBtn:hover{
+    background:#3730a3;
+}
+
+/* ================= Logo ================= */
+
+.sidebar h2{
+    text-align:center;
+    color:#4f46e5;
+    margin:25px 0 35px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.sidebar.close h2{
+    display:none;
+}
+
+/* ================= Menu ================= */
+.sidebar ul{
+    list-style:none;
+    padding:0;
+    margin-top:80px;
+}
+
+.sidebar li{
+    width:100%;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    height:55px;
+    padding:0 20px;
+    text-decoration:none;
+    color:#000; /* Texte noir */
+    gap:15px;
+}
+.sidebar a:hover{
+    background-color: #4f46e5;
+}
+
+.sidebar a i{
+    width:30px;
+    min-width:30px;
+    text-align:center;
+    font-size:22px;
+    color:#000;
+}
+.sidebar a span{
+    flex:1;
+    color:#000;
+    font-size:16px;
+    font-weight:500;
+}
+
+.sidebar.close a{
+    justify-content:center;
+    padding:0;
+}
+
+.sidebar.close a i{
+    margin:0;
+}
+
+.sidebar.close a span{
+    display:none;
+    text-align: center;
+}
+/* ================= Sidebar Close ================= */
+
+.sidebar.close a{
+    justify-content:center;
+    padding:0;
+}
+
+.sidebar.close a i{
+    width:100%;
+    margin:0;
+}
+
+.sidebar.close a span{
+    display:none;
+}
+
+
+/* ================= Content ================= */
+
+.content{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    min-height:100vh;
+    padding:30px;
+    background:#f5f6fa;
+    transition:.3s;
+}
+
+.sidebar.close ~ .content{
+    margin-left:70px;
+    width:calc(100% - 70px);
+}
+
+/* ================= Dashboard ================= */
+
+.card{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 10px 20px rgba(0,0,0,.05);
+}
+
+.card h1{
+    color:#333;
+}
+
+.card p{
+    margin-top:10px;
+    color:#777;
+}
+/* ================= Compte ================= */
+
+.account{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    padding:15px;
+    border-top:1px solid #e5e7eb;
+}
+
+.account-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+}
+
+.account img{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    object-fit:cover;
+}
+
+
+.logout{
+    width:34px;
+    height:34px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-radius:50%;
+    text-decoration:none;
+    background:transparent;
+    transition:0.3s;
+}
+
+.logout:hover{
+    background:transparent !important;
+
+}
+.logout i:hover{
+    background:transparent !important;
+    color: #4f46e5;
+}
+.menu > li > a:hover{
+    background:#4f46e5;
+}
+
+.menu > li > a:hover span,
+.menu > li > a:hover i{
+    color:#fff;
+}
+.logout i{
+    font-size:18px;
+}
+.user-details{
+    flex:1;
+}
+
+.user-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:5px;
+    transition:0.3s;
+}
+.user-header:hover{
+    background:transparent !important;
+}
+.user-header h4{
+    font-size:15px;
+    color:#111827;
+    margin:0;
+    background:transparent;
+}
+.user-header h4:hover{
+    background:transparent !important;
+    color:#111827;
+}
+.user-details p{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
+    color:#6b7280;
+}
+
+.user-details p span{
+    background:#4f46e5;
+    color:#fff;
+    padding:3px 8px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+
+/* Sidebar fermée */
+
+.sidebar.close .user-details,
+.sidebar.close .logout span{
+    display:none;
+}
+
+.sidebar.close .account-info{
+    justify-content:center;
+}
+
+.sidebar.close .logout{
+    justify-content:center;
+    padding:12px 0;
+}
+
+.sidebar.close .logout i{
+    margin:0;
+}
+/* Élément actif */
+.menu > li > a.active{
+    background: #4f46e5;
+    color: #fff;
+    border-radius: 10px;
+    margin: 5px 10px;
+    box-shadow: 0 5px 12px rgba(79,70,229,.25);
+}
+
+.menu > li > a.active i,
+.menu > li > a.active span{
+    color:#fff;
+}
+
+/* Hover des autres menus */
+.menu > li > a:not(.active):hover{
+    background:#eef2ff;
+    color:#4f46e5;
+    border-radius:10px;
+    margin:5px 10px;
+}
+
+.menu > li > a:not(.active):hover i,
+.menu > li > a:not(.active):hover span{
+    color:#4f46e5;
+}
+ /* =========================================
+   DASHBOARD HEADER
+========================================= */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+    margin: 0;
+}
+
+
+/* =========================================
+   NOTIFICATION WRAPPER
+========================================= */
+
+.notification-wrapper {
+    position: relative;
+}
+
+
+/* =========================================
+   NOTIFICATION BUTTON
+========================================= */
+
+.notification-btn {
+    position: relative;
+    width: 45px;
+    height: 45px;
+    border: none;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 21px;
+    color: #333;
+    transition: .3s;
+    box-shadow: 0 3px 10px rgba(0,0,0,.05);
+}
+
+.notification-btn:hover {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+
+/* =========================================
+   BADGE
+========================================= */
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+
+    min-width: 20px;
+    height: 20px;
+
+    padding: 0 5px;
+
+    background: #ef4444;
+    color: #fff;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #f5f6fa;
+}
+
+
+/* =========================================
+   PANEL
+========================================= */
+
+.notification-panel {
+    position: absolute;
+
+    top: 55px;
+    right: 0;
+
+    width: 380px;
+
+    background: #fff;
+
+    border-radius: 14px;
+
+    box-shadow: 0 12px 35px rgba(0,0,0,.15);
+
+    overflow: hidden;
+
+    display: none;
+
+    z-index: 9999;
+}
+
+.notification-panel.show {
+    display: block;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.notification-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 16px 18px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.notification-header h3 {
+    margin: 0;
+
+    font-size: 18px;
+
+    color: #111827;
+}
+
+.notification-header span {
+    font-size: 12px;
+
+    color: #4f46e5;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   LIST
+========================================= */
+
+.notification-list {
+    max-height: 400px;
+
+    overflow-y: auto;
+}
+
+
+/* =========================================
+   NOTIFICATION ITEM
+========================================= */
+
+.notification-item {
+    position: relative;
+
+    display: flex;
+
+    gap: 12px;
+
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #f1f1f1;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.notification-item:hover {
+    background: #f8f9fa;
+}
+
+
+/* NON LUE */
+
+.notification-item.unread {
+    background: #eef4ff;
+}
+
+.notification-item.unread:hover {
+    background: #e4edff;
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.notification-icon {
+    width: 40px;
+    height: 40px;
+
+    min-width: 40px;
+
+    border-radius: 50%;
+
+    background: #eef2ff;
+
+    color: #4f46e5;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.notification-content {
+    flex: 1;
+
+    padding-right: 15px;
+}
+
+.notification-content strong {
+    display: block;
+
+    font-size: 14px;
+
+    color: #111827;
+
+    margin-bottom: 5px;
+}
+
+.notification-content p {
+    margin: 0 0 5px;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+
+    color: #6b7280;
+}
+
+.notification-content small {
+    font-size: 11px;
+
+    color: #9ca3af;
+}
+
+
+/* =========================================
+   UNREAD DOT
+========================================= */
+
+.unread-dot {
+    position: absolute;
+
+    right: 15px;
+    top: 20px;
+
+    width: 8px;
+    height: 8px;
+
+    background: #4f46e5;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================
+   NO NOTIFICATIONS
+========================================= */
+
+.no-notifications {
+    padding: 40px 20px;
+
+    text-align: center;
+
+    color: #9ca3af;
+}
+
+.no-notifications i {
+    font-size: 35px;
+
+    margin-bottom: 12px;
+
+    color: #cbd5e1;
+}
+
+.no-notifications p {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.notification-footer {
+    padding: 13px;
+
+    text-align: center;
+
+    border-top: 1px solid #eee;
+}
+
+.notification-footer a {
+    text-decoration: none;
+
+    color: #4f46e5;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+.notification-footer a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+.notification-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+
+    border-radius: 10px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .notification-panel {
+        position: fixed;
+
+        top: 70px;
+
+        right: 15px;
+        left: 15px;
+
+        width: auto;
+    }
+
+}  
+   
+   
+   </style>
+<body>
+
+<div id="sidebar" class="sidebar">
+    <button id="toggleBtn">
+        <i id="toggleIcon" class="fa-solid fa-chevron-left"></i>
+    </button>
+
+        <h2>Menu</h2>
+   <ul class="menu"> 
+   <li> 
+    <a href="#" class="active"> 
+    <i class="fa-solid fa-house"></i> 
+    <span>Dashboard</span> 
+</a> </li> 
+ <li>
+     <a href="#"> 
+        <i class="fa-solid fa-user"></i> 
+        <span>Mon profil</span> 
+    </a>
+ </li> 
+        <li> 
+            <a href="#"> 
+                <i class="fa-solid fa-trophy"></i>
+                 <span>Compétitions</span> 
+                </a> 
+            </li> 
+             <li> <a href="#"> <i class="fa-solid fa-list-check"></i> <span>Mes participations</span> </a> </li> <!-- Mes projets --> <li> <a href="#"> <i class="fa-solid fa-folder-open"></i> <span>Mes projets</span> </a> </li> <!-- Résultats / Classement --> <li> <a href="#"> <i class="fa-solid fa-ranking-star"></i> <span>Résultats / Classement</span> </a> </li> <!-- Professeurs --> <li> <a href="#"> <i class="fa-solid fa-chalkboard-user"></i> <span>Professeurs</span> </a> </li> </ul>
+<!-- ================= Compte ================= -->
+<div class="account">
+    <div class="account-info">
+
+        <!-- Photo de l'étudiant -->
+        {% if student.photo %}
+            <img src="{{ student.photo.url }}" alt="Profile">
+        {% else %}
+            <img src="https://i.pravatar.cc/100?u={{ student.id }}" alt="Profile">
+        {% endif %}
+
+        <div class="user-details">
+
+            <div class="user-header">
+                <!-- Nom et prénom de l'étudiant connecté -->
+                <h4>
+                    {{ student.first_name }} {{ student.last_name }}
+                </h4>
+
+                <!-- Déconnexion -->
+                <a href="{% url 'logout' %}" class="logout" title="Déconnexion">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+
+            <p>
+                <!-- Identifiant étudiant -->
+                {{ student.student_id }}
+
+                <!-- Niveau -->
+                <span>{{ student.level }}</span>
+            </p>
+
+        </div>
+    </div>
+</div>
+
+<div class="content">
+     <div class="dashboard-header"> 
+        <h1>Dashboard</h1> 
+      
+        <div class="notification-wrapper">
+
+    <button
+        class="notification-btn"
+        id="notificationBtn"
+        type="button"
+        title="Notifications"
+    >
+
+        <i class="fa-solid fa-bell"></i>
+
+        {% if unread_count > 0 %}
+
+            <span
+                class="notification-badge"
+                id="notificationCount"
+            >
+                {{ unread_count }}
+            </span>
+
+        {% endif %}
+
+    </button>
+
+
+    <div
+        class="notification-panel"
+        id="notificationPanel"
+    >
+
+        <div class="notification-header">
+
+            <h3>
+                Notifications
+            </h3>
+
+            <span id="unreadText">
+
+                {% if unread_count == 0 %}
+
+                    Aucune notification non lue
+
+                {% elif unread_count == 1 %}
+
+                    1 non lue
+
+                {% else %}
+
+                    {{ unread_count }} non lues
+
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <div class="notification-list">
+
+            {% for notification in notifications %}
+
+                <div
+                    class="notification-item
+                    {% if not notification.is_read %}unread{% endif %}"
+                    data-id="{{ notification.id }}"
+                >
+
+                    <div class="notification-icon">
+
+                        <i class="fa-solid {{ notification.icon }}"></i>
+
+                    </div>
+
+
+                    <div class="notification-content">
+
+                        <strong>
+                            {{ notification.title }}
+                        </strong>
+
+                        <p>
+                            {{ notification.message }}
+                        </p>
+
+                        <small>
+                            {{ notification.created_at|timesince }}
+                        </small>
+
+                    </div>
+
+
+                    {% if not notification.is_read %}
+
+                        <span class="unread-dot"></span>
+
+                    {% endif %}
+
+                </div>
+
+            {% empty %}
+
+                <div class="no-notifications">
+
+                    <i class="fa-regular fa-bell-slash"></i>
+
+                    <p>
+                        Aucune notification
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="notification-footer">
+
+            <a href="#">
+                Voir toutes les notifications
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+</body>
+
+<!-- <script src="../static/js/script.js"></script> -->
+<script>
+
+const sidebar = document.getElementById("sidebar");
+const btn = document.getElementById("toggleBtn");
+const icon = document.getElementById("toggleIcon");
+
+
+// =========================================
+// SIDEBAR
+// =========================================
+
+btn.onclick = function () {
+
+    sidebar.classList.toggle("close");
+
+    if (sidebar.classList.contains("close")) {
+
+        icon.classList.remove("fa-chevron-left");
+        icon.classList.add("fa-chevron-right");
+
+    } else {
+
+        icon.classList.remove("fa-chevron-right");
+        icon.classList.add("fa-chevron-left");
+
+    }
+
+};
+
+
+// =========================================
+// NOTIFICATIONS
+// =========================================
+
+const notificationBtn =
+    document.getElementById("notificationBtn");
+
+const notificationPanel =
+    document.getElementById("notificationPanel");
+
+
+// Ouvrir / fermer le panneau
+
+notificationBtn.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+    notificationPanel.classList.toggle("show");
+
+});
+
+
+// Empêcher la fermeture quand on clique dans le panneau
+
+notificationPanel.addEventListener("click", function(event) {
+
+    event.stopPropagation();
+
+});
+
+
+// Fermer quand on clique ailleurs
+
+document.addEventListener("click", function() {
+
+    notificationPanel.classList.remove("show");
+
+});
+
+
+// =========================================
+// MARQUER UNE NOTIFICATION COMME LUE
+// =========================================
+
+document.querySelectorAll(".notification-item").forEach(function(notification) {
+
+    notification.addEventListener("click", function() {
+
+        const notificationId = this.dataset.id;
+
+        // Déjà lue
+        if (!this.classList.contains("unread")) {
+            return;
+        }
+
+
+        fetch(`/notifications/${notificationId}/read/`, {
+
+            method: "POST",
+
+            headers: {
+
+                "X-CSRFToken": getCookie("csrftoken"),
+
+                "Content-Type": "application/json"
+
+            }
+
+        })
+
+        .then(response => {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Erreur lors de la lecture de la notification"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(data => {
+
+            if (data.success) {
+
+                // Retirer le style non lu
+                notification.classList.remove("unread");
+
+                notification.dataset.read = "true";
+
+
+                // Supprimer le petit point
+                const dot =
+                    notification.querySelector(".unread-dot");
+
+                if (dot) {
+                    dot.remove();
+                }
+
+
+                // Mettre à jour le compteur
+                updateNotificationCount();
+
+            }
+
+        })
+
+        .catch(error => {
+
+            console.error(
+                "Erreur notification :",
+                error
+            );
+
+        });
+
+    });
+
+});
+
+
+// =========================================
+// COMPTEUR NOTIFICATIONS
+// =========================================
+
+function updateNotificationCount() {
+
+    const unreadNotifications =
+        document.querySelectorAll(
+            ".notification-item.unread"
+        );
+
+    const count =
+        unreadNotifications.length;
+
+
+    const badge =
+        document.getElementById("notificationCount");
+
+
+    const unreadText =
+        document.getElementById("unreadText");
+
+
+    // =====================================
+    // BADGE
+    // =====================================
+
+    if (count > 0) {
+
+        if (badge) {
+
+            badge.textContent = count;
+
+        } else {
+
+            const newBadge =
+                document.createElement("span");
+
+            newBadge.id = "notificationCount";
+
+            newBadge.className =
+                "notification-badge";
+
+            newBadge.textContent = count;
+
+            notificationBtn.appendChild(newBadge);
+
+        }
+
+    } else {
+
+        if (badge) {
+
+            badge.remove();
+
+        }
+
+    }
+
+
+    // =====================================
+    // TEXTE DU HEADER
+    // =====================================
+
+    if (count === 0) {
+
+        unreadText.textContent =
+            "Aucune notification non lue";
+
+    }
+
+    else if (count === 1) {
+
+        unreadText.textContent =
+            "1 non lue";
+
+    }
+
+    else {
+
+        unreadText.textContent =
+            count + " non lues";
+
+    }
+
+}
+
+
+// =========================================
+// CSRF DJANGO
+// =========================================
+
+function getCookie(name) {
+
+    let cookieValue = null;
+
+    if (document.cookie && document.cookie !== "") {
+
+        const cookies =
+            document.cookie.split(";");
+
+        for (let cookie of cookies) {
+
+            cookie = cookie.trim();
+
+            if (
+                cookie.substring(
+                    0,
+                    name.length + 1
+                ) === name + "="
+            ) {
+
+                cookieValue =
+                    decodeURIComponent(
+                        cookie.substring(
+                            name.length + 1
+                        )
+                    );
+
+                break;
+
+            }
+
+        }
+
+    }
+
+    return cookieValue;
+
+}
+
+</script>
+
+</body>
+</html>

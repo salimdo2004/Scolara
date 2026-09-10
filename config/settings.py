@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'student',
 ]
 
 MIDDLEWARE = [
@@ -75,11 +76,15 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'scolara',
+        'USER': 'postgres',
+        'PASSWORD': 'Salim@34',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
+}
 
 
 # Password validation
